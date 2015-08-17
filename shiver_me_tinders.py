@@ -12,6 +12,13 @@ class Tinder(object):
     base_url = "https://api.gotinder.com"
 
     def __init__(self, fb_token, fb_id, lat, lon):
+        """Initialize Tinder object.
+
+        :param str fb_token: Your Facebook Token
+        :param str fb_id: Your Facebook ID
+        :param long lat: Your latitude.
+        :param long lat: Your longitude.
+        """
         self.fb_token = fb_token
         self.fb_id = fb_id
         self.location = {'lat': lat, 'lon': lon}
@@ -20,6 +27,10 @@ class Tinder(object):
 
     @classmethod
     def config_from_file(cls, path_to_yaml):
+        """Initialize Tinder object via yaml file.
+
+        :param str path_to_yaml: Absolute path to config.yaml.
+        """
         with open(path_to_yaml, 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
         fb_token = cfg.get('facebook', {}).get('token')
