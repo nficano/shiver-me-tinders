@@ -1,7 +1,7 @@
 facebook:
-  token:
-  id:
+  token: xxxxx
+  id: 1001
 
 location:
-  lat:
-  lon:
+  lat: 40.0
+  lon: -70.0
