@@ -81,6 +81,12 @@ class Tinder(object):
             yield User(id=r.get('_id'), name=r.get('name'), bio=r.get('bio'),
                        photos=photos)
 
+    def iter_matches(self):
+        while True:
+            matches = self.get_matches()
+            for match in matches:
+                yield match
+
     def like(self, User):
         if 'tinder_rate_limited_id_' in User.id:
             raise Exception(User.bio)
@@ -110,8 +116,5 @@ class Tinder(object):
 
 if __name__ == '__main__':
     tinder = Tinder.config_from_file('config.yaml')
-    while True:
-        matches = tinder.get_matches()
-        for match in matches:
-            print "liking %s" % match.name
-            tinder.like(match)
+    for match in tinder.iter_matches():
+        tinder.like(match)
