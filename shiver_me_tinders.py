@@ -40,6 +40,8 @@ class Tinder(object):
         return cls(fb_token, fb_id, lat, lon)
 
     def auth(self):
+        """Get the auth token for signing tinder requests.
+        """
         endpoint = "/auth"
         payload = {
             "locale": "en",
@@ -52,9 +54,11 @@ class Tinder(object):
             self.token = resp.json().get('token', {})
         if not resp.ok:
             raise Exception(resp.text)
-        return resp.json()
+        return self.token
 
     def ping(self):
+        """Tell the server your location.
+        """
         endpoint = "/user/ping"
         headers = {
             'Token': 'token="%s"' % self.token,
@@ -67,6 +71,8 @@ class Tinder(object):
         return resp.json()
 
     def get_matches(self):
+        """Returns a list of Tinder matches as User objects.
+        """
         User = namedtuple('User', ['id', 'name', 'bio', 'photos'])
         endpoint = "/user/recs"
         headers = {
@@ -82,17 +88,23 @@ class Tinder(object):
                        photos=photos)
 
     def iter_matches(self):
+        """Wraps the `get_matches()` method to serve matches infinately.
+        """
         while True:
             matches = self.get_matches()
             for match in matches:
                 yield match
 
-    def like(self, User):
-        if 'tinder_rate_limited_id_' in User.id:
-            raise Exception(User.bio)
+    def like(self, user):
+        """Like a user.
 
-        log.debug('tips hat at %s', User.name)
-        endpoint = "/like/%s" % User.id
+        :param object user: An instance of a user object.
+        """
+        if 'tinder_rate_limited_id_' in user.id:
+            raise Exception(user.bio)
+
+        log.debug('tips hat at %s', user.name)
+        endpoint = "/like/%s" % user.id
         headers = {
             'Token': 'token="%s"' % self.token,
             'X-Auth-Token': self.token
@@ -102,8 +114,14 @@ class Tinder(object):
             raise Exception(resp.text)
         return resp.json()
 
-    def dislike(self, User):
-        endpoint = "/pass/%s" % User.id
+    def dislike(self, user):
+        """Pass on a user.
+
+        :param object user: An instance of a user object.
+        """
+        if 'tinder_rate_limited_id_' in user.id:
+            raise Exception(user.bio)
+        endpoint = "/pass/%s" % user.id
         headers = {
             'Token': 'token="%s"' % self.token,
             'X-Auth-Token': self.token
