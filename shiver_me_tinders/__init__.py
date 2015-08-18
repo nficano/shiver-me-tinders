@@ -1,3 +1,1 @@
-__version__ = '0.0.4'
-
-from tinder import Tinder
+__version__ = '0.1.0'

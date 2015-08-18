@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from shiver_me_tinders import __version__
 import os
 
 try:
@@ -15,16 +13,19 @@ def open_file(fname):
 
 setup(
     name='shiver_me_tinders',
-    version=__version__,
+    version="0.1.0",
     packages=['shiver_me_tinders'],
-    description='A lightweight wrapper around the Tinder undocumented API.',
+    description="A lightweight wrapper around Tinder's API.",
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     url='https://github.com/nficano/shiver-me-tinders',
-    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.0.4',
+    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.1.0',
     keywords=['tinder'],
     license=open_file('LICENSE.txt').read(),
-    install_requires=['requests', 'PyYAML'],
+    install_requires=[
+        'requests>=2.7.0',
+        'PyYAML>=3.11'
+    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
