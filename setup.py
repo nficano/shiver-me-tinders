@@ -21,7 +21,7 @@ setup(
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     url='https://github.com/nficano/shiver-me-tinders',
-    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.0.1',
+    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.0.3',
     keywords=['tinder'],
     license=open_file('LICENSE.txt').read(),
     install_requires=['requests', 'PyYAML'],
