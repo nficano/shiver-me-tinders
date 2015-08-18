@@ -130,9 +130,3 @@ class Tinder(object):
         if not resp.ok:
             raise Exception(resp.text)
         return resp.json()
-
-
-if __name__ == '__main__':
-    tinder = Tinder.config_from_file('config.yaml')
-    for match in tinder.iter_matches():
-        tinder.like(match)
