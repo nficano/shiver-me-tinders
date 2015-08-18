@@ -14,10 +14,14 @@ class Tinder(object):
     def __init__(self, fb_token, fb_id, lat, lon):
         """Initialize Tinder object.
 
-        :param str fb_token: Your Facebook Token
-        :param str fb_id: Your Facebook ID
-        :param long lat: Your latitude.
-        :param long lat: Your longitude.
+        :param str fb_token:
+            Your Facebook token.
+        :param str fb_id:
+            Your Facebook ID.
+        :param long lat:
+            Your latitude.
+        :param long lat:
+            Your longitude.
         """
         self.fb_token = fb_token
         self.fb_id = fb_id
@@ -29,7 +33,8 @@ class Tinder(object):
     def config_from_file(cls, path_to_yaml):
         """Initialize Tinder object via yaml file.
 
-        :param str path_to_yaml: Absolute path to config.yaml.
+        :param str path_to_yaml:
+            Absolute path to config.yaml.
         """
         with open(path_to_yaml, 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
@@ -98,7 +103,8 @@ class Tinder(object):
     def like(self, user):
         """Like a user.
 
-        :param object user: An instance of a user object.
+        :param object user:
+            An instance of a user object.
         """
         if 'tinder_rate_limited_id_' in user.id:
             raise Exception(user.bio)
@@ -117,7 +123,8 @@ class Tinder(object):
     def dislike(self, user):
         """Pass on a user.
 
-        :param object user: An instance of a user object.
+        :param object user:
+            An instance of a user object.
         """
         if 'tinder_rate_limited_id_' in user.id:
             raise Exception(user.bio)
