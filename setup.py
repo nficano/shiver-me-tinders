@@ -13,13 +13,13 @@ def open_file(fname):
 
 setup(
     name='shiver_me_tinders',
-    version="0.1.1",
+    version="0.1.2",
     packages=['shiver_me_tinders'],
     description="A lightweight wrapper around Tinder's API.",
     author='Nick Ficano',
     author_email='nficano@gmail.com',
     url='https://github.com/nficano/shiver-me-tinders',
-    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.1.1',
+    download_url='https://github.com/nficano/shiver-me-tinders/tarball/0.1.2',
     keywords=['tinder'],
     license=open_file('LICENSE.txt').read(),
     install_requires=[
