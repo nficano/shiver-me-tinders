@@ -54,7 +54,7 @@ Usage Example
     tinder = Tinder(fb_token='xxx', fb_id=1001, lat=40.0, lon=-70.0)
 
     # Or initialize it with a yaml file (see included config.yaml.sample).
-    tinder = Tinder.config_from_file('/path/to/file/config.yaml')
+    tinder = tinder.config_from_file('/path/to/file/config.yaml')
 
     matches = Tinder.get_matches()
     for match in matches:
