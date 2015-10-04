@@ -50,7 +50,7 @@ Usage Example
 
 .. code:: python
 
-    from shiver_me_tinder import Tinder
+    from shiver_me_tinders import Tinder
     tinder = Tinder(fb_token='xxx', fb_id=1001, lat=40.0, lon=-70.0)
 
     # Or initialize it with a yaml file (see included config.yaml.sample).
