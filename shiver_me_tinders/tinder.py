@@ -7,6 +7,11 @@ import requests
 
 log = logging.getLogger(__name__)
 
+APP_VERSION = 371
+OS_VERSION = 9000000002
+PLATFORM = 'ios'
+USER_AGENT = 'Tinder/4.6.1 (iPhone; 9.0.2; Scale/2.00)'
+
 
 class Tinder(object):
     base_url = "https://api.gotinder.com"
@@ -65,10 +70,7 @@ class Tinder(object):
         """Tell the server your location.
         """
         endpoint = "/user/ping"
-        headers = {
-            'Token': 'token="%s"' % self.token,
-            'X-Auth-Token': self.token
-        }
+        headers = self._get_auth_header()
         resp = requests.post(self.base_url + endpoint, headers=headers,
                              json=self.location)
         if not resp.ok:
@@ -78,19 +80,17 @@ class Tinder(object):
     def get_matches(self):
         """Returns a list of Tinder matches as User objects.
         """
-        User = namedtuple('User', ['id', 'name', 'bio', 'photos'])
-        endpoint = "/user/recs"
-        headers = {
-            'Token': 'token="%s"' % self.token,
-            'X-Auth-Token': self.token
-        }
+        User = namedtuple('User', [
+            'id', 'name', 'bio', 'birth_date', 'photos'])
+        endpoint = "/user/recs?locale=en-US"
+        headers = self._get_auth_header()
         resp = requests.get(self.base_url + endpoint, headers=headers)
         if not resp.ok:
             raise Exception(resp.text)
         for r in resp.json().get('results', []):
             photos = [p.get('url') for p in r.get('photos')]
             yield User(id=r.get('_id'), name=r.get('name'), bio=r.get('bio'),
-                       photos=photos)
+                       birth_date=r.get('birth_date'), photos=photos)
 
     def iter_matches(self):
         """Wraps the `get_matches()` method to serve matches infinately.
@@ -111,10 +111,7 @@ class Tinder(object):
 
         log.debug('tips hat at %s', user.name)
         endpoint = "/like/%s" % user.id
-        headers = {
-            'Token': 'token="%s"' % self.token,
-            'X-Auth-Token': self.token
-        }
+        headers = self._get_auth_header()
         resp = requests.get(self.base_url + endpoint, headers=headers)
         if not resp.ok:
             raise Exception(resp.text)
@@ -129,11 +126,18 @@ class Tinder(object):
         if 'tinder_rate_limited_id_' in user.id:
             raise Exception(user.bio)
         endpoint = "/pass/%s" % user.id
-        headers = {
-            'Token': 'token="%s"' % self.token,
-            'X-Auth-Token': self.token
-        }
+        headers = self._get_auth_header()
         resp = requests.get(self.base_url + endpoint, headers=headers)
         if not resp.ok:
             raise Exception(resp.text)
         return resp.json()
+
+    def _get_auth_header(self):
+        return {
+            'Authorization': 'Token token="%s"' % self.token,
+            'User-Agent': USER_AGENT,
+            'X-Auth-Token': self.token,
+            'app-version': APP_VERSION,
+            'os_version': OS_VERSION,
+            'platform': PLATFORM,
+        }
